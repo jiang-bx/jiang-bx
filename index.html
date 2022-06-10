@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Remind Me</title>
+    </head>
+    <body>
+        <h1 id="time">tip</h1>
+        <script>
+            window.addEventListener("load", function () {
+                var PERMISSION_GRANTED = "granted";
+                var PERMISSION_DENIED = "denied";
+                var PERMISSION_DEFAULT = "default";
+
+                // 如果用户已经允许，直接显示消息，如果不允许则提示用户授权
+                if (Notification.permission !== PERMISSION_GRANTED) {
+                    Notification.requestPermission(function (res) {
+                        // console.log(res);
+                    });
+                }
+            });
+
+            // 显示提示消息
+            function notify($title, $options) {
+                var notification = new Notification($title, $options);
+                console.log(notification);
+                notification.onshow = function (event) {
+                    console.log("show : ", event);
+                };
+                notification.onclose = function (event) {
+                    console.log("close : ", event);
+                };
+                notification.onclick = function (event) {
+                    console.log("click : ", event);
+                    // 当点击事件触发，打开指定的url
+                    // window.open(event.target.data);
+                    notification.close();
+                };
+            }
+        </script>
+
+        <script>
+            function getWholePoint() {
+                const now = new Date("2022-01-01 13:00:33");
+                const hour = now.getHours();
+                const minute = now.getMinutes();
+                console.log(hour);
+                console.log(minute);
+
+                if (minute <= 0) {
+                    // 开始提示
+                    notify("新的消息", {
+                        body: "请休息一会",
+                        icon: "https://us-shopify-image.oss-accelerate.aliyuncs.com/images/2022/6/10/286e7e0b-eb3a-4a9a-add8-4f2d356bc3e9.png",
+                        data: "https://us-shopify-image.oss-accelerate.aliyuncs.com/images/2022/6/10/286e7e0b-eb3a-4a9a-add8-4f2d356bc3e9.png",
+                    });
+                }
+            }
+
+            // getWholePoint();
+
+            setInterval(() => {
+                getWholePoint();
+            }, 1000 * 2)
+        </script>
+    </body>
+</html>
