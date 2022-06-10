@@ -42,28 +42,30 @@
         </script>
 
         <script>
+            const remindHourList = [
+                10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+            ];
             function getWholePoint() {
-                const now = new Date("2022-01-01 13:00:33");
+                const now = new Date();
                 const hour = now.getHours();
                 const minute = now.getMinutes();
-                console.log(hour);
-                console.log(minute);
+                const hourIndex = remindHourList.findIndex(
+                    (item) => item === hour
+                );
 
-                if (minute <= 0) {
+                if (minute <= 0 && hourIndex > -1) {
                     // 开始提示
-                    notify("新的消息", {
-                        body: "请休息一会",
+                    notify("您有一条新的提醒消息", {
+                        body: "请休息一会, 并总结问题",
                         icon: "https://us-shopify-image.oss-accelerate.aliyuncs.com/images/2022/6/10/286e7e0b-eb3a-4a9a-add8-4f2d356bc3e9.png",
                         data: "https://us-shopify-image.oss-accelerate.aliyuncs.com/images/2022/6/10/286e7e0b-eb3a-4a9a-add8-4f2d356bc3e9.png",
                     });
                 }
             }
 
-            // getWholePoint();
-
             setInterval(() => {
                 getWholePoint();
-            }, 1000 * 2)
+            }, 30 * 1000);
         </script>
     </body>
 </html>
